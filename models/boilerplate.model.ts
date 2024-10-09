@@ -1,11 +1,13 @@
 import type {User} from "~/models/user.model";
+import type {Like} from "~/models/like.model";
 
 export interface Boilerplate {
     id?: number;
     name: string;
     gitUrl: string;
-    likes: number;
-    uses: number;
+    likesCounter: number;
+    usesCounter: number;
     authorId: number | null;
-    author: User;
+    author?: User;
+    likes?: Like[];
 }
