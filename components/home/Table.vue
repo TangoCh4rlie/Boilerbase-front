@@ -5,7 +5,7 @@ import {useBoilerplateStore} from "~/store/boilerplate.store";
 
 const boilerplateStore = useBoilerplateStore();
 
-const { data } = await useFetch<Boilerplate[]>(apiUrl() + "boilerplate");
+const { data } = await useFetch<Boilerplate[]>(apiUrl() + "boilerplate/top");
 boilerplateStore.setBoilerplates(data);
 
 </script>
