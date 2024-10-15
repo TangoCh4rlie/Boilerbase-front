@@ -1,4 +1,4 @@
-import Boilerplate from "~/pages/boilerplate.vue";
+import type {Boilerplate} from "~/models/boilerplate.model";
 
 export const useBoilerplateStore = defineStore('boilerplateStore', {
     state: () => ({

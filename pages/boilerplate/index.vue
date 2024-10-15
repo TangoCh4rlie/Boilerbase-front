@@ -3,6 +3,7 @@ import {z} from "zod";
 import type {FormSubmitEvent} from "#ui/types";
 import type {GitRepos} from "~/models/gitRepos.model";
 import {availableLanguages} from "~/utils/availableLanguages";
+import {apiUrl} from "~/utils/host";
 
 const {data} = await useFetch<GitRepos[]>("https://api.github.com/users/TangoCh4rlie/repos");
 
@@ -61,7 +62,22 @@ watch(() => boilerplate.projectName, async (newValue) => {
 async function onSubmit(event: FormSubmitEvent<NewBoilerplateValidator>) {
     const gitUrl = repos.find((item: GitRepos) => item.name === event.data.projectName)?.html_url;
 
-    console.log(event.data.description, event.data.name, gitUrl, languages.value.map((item) => item.label));
+    const { data } = await useFetch<{ status: number, message: string }>(apiUrl() + "boilerplate", {
+        method: "POST",
+        body: JSON.stringify({
+            name: event.data.name,
+            description: event.data.description,
+            gitUrl: gitUrl,
+            languages: languages.value.map((item) => item.label),
+        //     TODO: changer par la valeur de l'utilisateur connecté
+            authorId: '50408224'
+        })
+    });
+
+    if (data.value.status === 500) {
+        // TODO: afficher une erreur à l'utilisateur
+        console.error('Error creating boilerplate:', data.value.message);
+    }
 }
 </script>
 

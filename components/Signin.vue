@@ -1,40 +1,12 @@
 <script setup lang="ts">
-const username = ref<string>("");
-const password = ref<string>("");
-
-function login() {
-    console.log(username.value, password.value);
+async function login() {
+    const clientId = 'Iv23liRAlnT23lQE2Avs'; // Your GitHub OAuth App's Client ID
+    const redirectUri = encodeURIComponent('http://localhost:3000/github/callback');
+    const scope = 'public_profile'; // Adjust scopes as needed
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}`;
 }
 </script>
 
 <template>
-    <UContainer>
-        <div class="flex flex-col items-center">
-            <h3 class="text-3xl font-bold my-8">Sign in</h3>
-            <UForm class="w-96">
-                <UContainer class="mb-4">
-                    <label class="text-sm">Email</label>
-                    <UInput
-                        v-model="username"
-                        type="string"
-                        placeholder="Username"
-                    />
-                </UContainer>
-                <UContainer class="mb-4">
-                    <label class="text-sm">Password</label>
-                    <UInput
-                        v-model="password"
-                        type="password"
-                        placeholder="Password"
-                    />
-                </UContainer>
-                <UButton
-                    @click="login"
-                    class="justify-center"
-                >
-                    Sign in
-                </UButton>
-            </UForm>
-        </div>
-    </UContainer>
+    <UButton @click="login">Login</UButton>
 </template>
