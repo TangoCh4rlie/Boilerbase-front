@@ -5,18 +5,15 @@ const props = defineProps<{
     boilerplate: Boilerplate
 }>();
 
-console.log(props.boilerplate);
-
 const isLikeHovered = computed(() => {
     return props.boilerplate.likes?.some(like => like.id === props.boilerplate.id) || false;
 });
 
-console.log(isLikeHovered.value);
-
+// FIXME: ca marche pas
 </script>
 
 <template>
-    <UContainer class="flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-md border-2 border-slate-200 hover:border-slate-300 p-4 w-full">
+    <UContainer class="flex items-center justify-center bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-md border-2 border-slate-200 dark:border-slate-800 hover:border-slate-300 p-4 w-full">
         <div class="flex items-center justify-start gap-4">
             <div class="flex items-center w-36">
                 <UAvatar

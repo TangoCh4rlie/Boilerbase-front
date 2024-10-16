@@ -3,7 +3,7 @@
     import type {User} from "~/models/user.model";
 
     const userStore = useUserStore();
-    const user: User = userStore.user;
+    const user: User = userStore.getUser;
 </script>
 
 <template>

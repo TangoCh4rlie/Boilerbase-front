@@ -11,7 +11,7 @@ const { data } = await useFetch<Boilerplate[]>(apiUrl() + "boilerplate/top", {
 </script>
 
 <template>
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center m-10">
         <h3 class="text-3xl font-bold my-8">Top boilerplates of the month</h3>
         <ul>
             <li v-for="item in data" :key="item.id">

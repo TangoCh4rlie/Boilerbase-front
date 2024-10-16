@@ -1,21 +1,4 @@
 <script setup lang="ts">
-import {apiUrl} from "~/utils/host";
-import type {User} from "~/models/user.model";
-import {useUserStore} from "~/store/user.store";
-
-const userStore = useUserStore();
-
-onMounted(() => {
-    if (useCookie('access-token').value !== undefined) {
-        const { data } = useFetch<User>(apiUrl() + "user/me", {
-            headers: {
-                Authorization: `Bearer ${useCookie('access-token').value}`
-            }
-        })
-        console.log(data.value);
-        userStore.setUser(data.value);
-    }
-});
 
 const onClickProfile = () => {
     if (useCookie('access-token').value === undefined) {
@@ -29,12 +12,11 @@ const onClickProfile = () => {
 <template>
     <div class="m-2">
         <UContainer class="flex items-center">
-            <UContainer class="flex items-center gap-x-2">
+            <UContainer class="flex items-center gap-x-2 cursor-pointer" @click="navigateTo('/')">
                 <UAvatar
                     src="https://avatars.githubusercontent.com/u/50408224?v=4"
                     alt="Boilerbase Logo"
                     size="lg"
-                    @click="navigateTo('/')"
                 />
                 <h1 class="text-3xl font-bold">BoilerBase</h1>
             </UContainer>

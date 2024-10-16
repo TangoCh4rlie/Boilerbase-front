@@ -1,4 +1,5 @@
 import {defineStore} from "pinia";
+import type {User} from "~/models/user.model";
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({
@@ -6,12 +7,11 @@ export const useUserStore = defineStore('userStore', {
     }),
 
     getters: {
-        getUser: (state) => state.user,
+        getUser: (state): User => state.user,
     },
 
     actions: {
         setUser(user) {
-            console.log('setUser', user);
             this.user = user;
         },
     },

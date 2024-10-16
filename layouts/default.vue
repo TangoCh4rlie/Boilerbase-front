@@ -9,7 +9,7 @@
             <slot/>
         </div>
         <div>
-            <footer class="border-t py-6 text-center text-sm text-muted-foreground">
+            <footer class="py-6 text-center text-sm text-muted-foreground">
                 <p>A SuperSympa project</p>
                 <p>© 2024 BoilerBase. All rights reserved.</p>
             </footer>
