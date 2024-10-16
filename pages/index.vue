@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import {useUserStore} from "~/store/user.store";
-import type {User} from "~/models/user.model";
+import type { User } from "~/models/user.model";
 
 const userStore = useUserStore();
+const localUser = ref<User>(userStore.getUser);
 
 onMounted(() => {
     fetchUser();
@@ -23,6 +24,9 @@ const fetchUser = async () => {
     }
 }
 
+watch(userStore.user, () => {
+    localUser.value = userStore.getUser;
+});
 </script>
 
 <template>
@@ -37,6 +41,6 @@ const fetchUser = async () => {
         </UButton>
     </UContainer>
     <UContainer class="w-3/5">
-        <HomeTable />
+        <HomeTable :user="localUser"/>
     </UContainer>
 </template>

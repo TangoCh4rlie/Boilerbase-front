@@ -2,14 +2,21 @@
 import type { Boilerplate } from "~/models/boilerplate.model";
 
 const props = defineProps<{
-    boilerplate: Boilerplate
+    boilerplate: Boilerplate,
+    user: User
 }>();
 
-const isLikeHovered = computed(() => {
-    return props.boilerplate.likes?.some(like => like.id === props.boilerplate.id) || false;
-});
+console.log(props.user);
 
-// FIXME: ca marche pas
+const isLikeHovered: boolean = ref(false);
+
+const likeBoilerplate = (boilerplateId: number) => {
+    if (user.likes?.includes(boilerplateId)) {
+        user.likes.push(boilerplateId);
+    } else {
+        user.likes?.splice(user.likes.indexOf(boilerplateId), 1);
+    }
+}
 </script>
 
 <template>
@@ -32,7 +39,7 @@ const isLikeHovered = computed(() => {
             <div
                 @mouseover="isLikeHovered = true"
                 @mouseleave="isLikeHovered = false"
-                @click=""
+                @click="likeBoilerplate(props.boilerplate.id)"
                 class="flex items-center gap-1"
             >
                 <UIcon :name="isLikeHovered ? 'i-heroicons-heart-solid' : 'i-heroicons-heart'" :class="isLikeHovered ? 'bg-purple-600' : ''" />
