@@ -6,16 +6,24 @@ const props = defineProps<{
     user: User
 }>();
 
-console.log(props.user);
+const token = useCookie('access-token').value;
 
-const isLikeHovered: boolean = ref(false);
+const isLiked = ref(false);
+
+watchEffect(() => {
+    isLiked.value = props.user.likes?.some(like => like.boilerplateId === props.boilerplate.id) ?? false;
+});
 
 const likeBoilerplate = (boilerplateId: number) => {
-    if (user.likes?.includes(boilerplateId)) {
-        user.likes.push(boilerplateId);
+    if (isLiked.value) {
+        props.user.likes = props.user.likes.filter(like => like.boilerplateId !== boilerplateId);
+        props.boilerplate.likesCounter--;
     } else {
-        user.likes?.splice(user.likes.indexOf(boilerplateId), 1);
+        props.user.likes.push({ boilerplateId });
+        props.boilerplate.likesCounter++;
     }
+
+    isLiked.value = !isLiked.value;
 }
 </script>
 
@@ -35,14 +43,16 @@ const likeBoilerplate = (boilerplateId: number) => {
             </div>
         </div>
 
+
+        <!--                @mouseover="isLiked = true"-->
+        <!--                @mouseleave="props.user.likes?.some(like => like.boilerplateId === props.boilerplate.id) ?? false"-->
+
         <div class="flex ml-auto space-x-4">
             <div
-                @mouseover="isLikeHovered = true"
-                @mouseleave="isLikeHovered = false"
                 @click="likeBoilerplate(props.boilerplate.id)"
                 class="flex items-center gap-1"
             >
-                <UIcon :name="isLikeHovered ? 'i-heroicons-heart-solid' : 'i-heroicons-heart'" :class="isLikeHovered ? 'bg-purple-600' : ''" />
+                <UIcon :name="isLiked ? 'i-heroicons-heart-solid' : 'i-heroicons-heart'" :class="isLiked ? 'bg-purple-600' : ''" />
                 <span>{{ props.boilerplate.likesCounter }}</span>
             </div>
             <div class="flex items-center gap-1">
