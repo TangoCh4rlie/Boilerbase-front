@@ -32,7 +32,10 @@ const likeBoilerplate = (boilerplateId: number) => {
 </script>
 
 <template>
-    <UContainer class="flex items-center justify-center bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-md border-2 border-slate-200 dark:border-slate-800 hover:border-slate-300 p-4 w-full">
+    <UContainer
+        @click="navigateTo(`/boilerplate/${props.boilerplate.name}`)"
+        class="flex items-center justify-center bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-md border-2 border-slate-200 dark:border-slate-800 hover:border-slate-300 p-4 w-full"
+    >
         <div class="flex items-center justify-start gap-4">
             <div class="flex items-center w-36">
                 <UAvatar
@@ -49,12 +52,12 @@ const likeBoilerplate = (boilerplateId: number) => {
 
         <div class="flex ml-auto space-x-4">
             <div
-                @click="likeBoilerplate(props.boilerplate.id)"
-                class="flex items-center gap-1 transition duration-300 ease-in-out transform"
+                @click.stop="likeBoilerplate(props.boilerplate.id)"
+                class="flex items-center gap-1 cursor-default"
             >
                 <UIcon
                     :name="isLiked ? 'i-heroicons-heart-solid' : 'i-heroicons-heart'"
-                    :class="isLiked ? 'bg-purple-600 bump' : ''"
+                    :class="isLiked ? 'bg-purple-600' : ''"
                 />
                 <span>{{ props.boilerplate.likesCounter }}</span>
             </div>
