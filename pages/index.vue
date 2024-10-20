@@ -1,27 +1,9 @@
 <script setup lang="ts">
 import {useUserStore} from "~/store/user.store";
-import type {User} from "~/models/user.model";
 
 const userStore = useUserStore();
-
-onMounted(() => {
-    fetchUser();
-});
-
-const fetchUser = async () => {
-    if (useCookie('access-token').value !== undefined) {
-        const user: User = await fetch("http://localhost:3001/user/me", {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${useCookie('access-token').value}`
-            }
-        }).then(res => res.json());
-        if (user) {
-            userStore.setUser(user);
-        }
-    }
-}
+// TODO: faire un truc plus propre avec la création de l'utilisateur au moment du chargement de n'importe quelle page
+await userStore.fetchUser();
 
 </script>
 
@@ -37,6 +19,6 @@ const fetchUser = async () => {
         </UButton>
     </UContainer>
     <UContainer class="w-3/5">
-        <HomeTable />
+        <HomeTable :user="userStore.getUser"/>
     </UContainer>
 </template>
