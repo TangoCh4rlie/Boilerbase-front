@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import type { Boilerplate } from "~/models/boilerplate.model";
+import type {Boilerplate} from "~/models/boilerplate.model";
+import {likeUnlikeBoilerplate} from "~/services/user.service";
+import type {User} from "~/models/user.model";
 
 const props = defineProps<{
     boilerplate: Boilerplate,
@@ -18,9 +20,11 @@ const likeBoilerplate = (boilerplateId: number) => {
     if (isLiked.value) {
         props.user.likes = props.user.likes.filter(like => like.boilerplateId !== boilerplateId);
         props.boilerplate.likesCounter--;
+        likeUnlikeBoilerplate(boilerplateId);
     } else {
         props.user.likes.push({ boilerplateId });
         props.boilerplate.likesCounter++;
+        likeUnlikeBoilerplate(boilerplateId);
     }
 
     isLiked.value = !isLiked.value;
@@ -43,16 +47,15 @@ const likeBoilerplate = (boilerplateId: number) => {
             </div>
         </div>
 
-
-        <!--                @mouseover="isLiked = true"-->
-        <!--                @mouseleave="props.user.likes?.some(like => like.boilerplateId === props.boilerplate.id) ?? false"-->
-
         <div class="flex ml-auto space-x-4">
             <div
                 @click="likeBoilerplate(props.boilerplate.id)"
-                class="flex items-center gap-1"
+                class="flex items-center gap-1 transition duration-300 ease-in-out transform"
             >
-                <UIcon :name="isLiked ? 'i-heroicons-heart-solid' : 'i-heroicons-heart'" :class="isLiked ? 'bg-purple-600' : ''" />
+                <UIcon
+                    :name="isLiked ? 'i-heroicons-heart-solid' : 'i-heroicons-heart'"
+                    :class="isLiked ? 'bg-purple-600 bump' : ''"
+                />
                 <span>{{ props.boilerplate.likesCounter }}</span>
             </div>
             <div class="flex items-center gap-1">
