@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import type {User} from "~/models/user.model";
+import {apiUrl} from "~/utils/host";
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({
@@ -15,7 +16,7 @@ export const useUserStore = defineStore('userStore', {
             const token = useCookie('access-token').value;
             if (token !== undefined) {
                 try {
-                    const response = await fetch("http://localhost:3001/user/me", {
+                    const response = await fetch(apiUrl() + "user/me", {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -35,5 +36,12 @@ export const useUserStore = defineStore('userStore', {
         setUser(user) {
             this.user = user;
         },
+
+        logout() {
+            const tokenCookie = useCookie('access-token');
+            tokenCookie.value = null;
+
+            this.user = null;
+        }
     },
 })

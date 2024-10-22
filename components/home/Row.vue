@@ -13,21 +13,29 @@ const token = useCookie('access-token').value;
 const isLiked = ref(false);
 
 watchEffect(() => {
+    if (props.user === null) {
+        return;
+    }
     isLiked.value = props.user.likes?.some(like => like.boilerplateId === props.boilerplate.id) ?? false;
 });
 
 const likeBoilerplate = (boilerplateId: number) => {
-    if (isLiked.value) {
-        props.user.likes = props.user.likes.filter(like => like.boilerplateId !== boilerplateId);
-        props.boilerplate.likesCounter--;
-        likeUnlikeBoilerplate(boilerplateId);
+    if (useCookie('access-token').value === undefined) {
+        navigateTo('/login');
     } else {
-        props.user.likes.push({ boilerplateId });
-        props.boilerplate.likesCounter++;
-        likeUnlikeBoilerplate(boilerplateId);
+        if (isLiked.value) {
+            props.user.likes = props.user.likes.filter(like => like.boilerplateId !== boilerplateId);
+            props.boilerplate.likesCounter--;
+            likeUnlikeBoilerplate(boilerplateId);
+        } else {
+            props.user.likes.push({ boilerplateId });
+            props.boilerplate.likesCounter++;
+            likeUnlikeBoilerplate(boilerplateId);
+        }
+
+        isLiked.value = !isLiked.value;
     }
 
-    isLiked.value = !isLiked.value;
 }
 </script>
 

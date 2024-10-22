@@ -4,6 +4,11 @@
 
     const userStore = useUserStore();
     const user: User = userStore.getUser;
+
+    const logout = () => {
+        userStore.logout();
+        navigateTo('/');
+    }
 </script>
 
 <template>
@@ -12,6 +17,13 @@
         :src="user.avatar"
         :alt="user.username"
         size="lg"
+    />
+    <UButton
+        label="Logout"
+        size="lg"
+        icon="i-heroicons-arrow-left-start-on-rectangle"
+        trailing
+        @click="logout()"
     />
 </template>
 
