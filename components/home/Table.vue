@@ -2,6 +2,10 @@
 import type { Boilerplate } from "~/models/boilerplate.model";
 import { apiUrl } from "~/utils/host";
 
+const props = defineProps<{
+    user: User
+}>();
+
 const { data } = await useFetch<Boilerplate[]>(apiUrl() + "boilerplate/top", {
     headers: {
         Authorization: `Bearer ${useCookie('access-token').value}`
@@ -15,7 +19,7 @@ const { data } = await useFetch<Boilerplate[]>(apiUrl() + "boilerplate/top", {
         <h3 class="text-3xl font-bold my-8">Top boilerplates of the month</h3>
         <ul>
             <li v-for="item in data" :key="item.id">
-                <HomeRow :boilerplate="item" class="my-2"/>
+                <HomeRow :boilerplate="item" :user="props.user" class="my-2"/>
             </li>
         </ul>
     </div>
