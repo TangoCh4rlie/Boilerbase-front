@@ -1,19 +1,18 @@
 <script setup lang="ts">
-    import {useUserStore} from "~/store/user.store";
-    import type {User} from "~/models/user.model";
+import {useUserStore} from "~/store/user.store";
+import type {User} from "~/models/user.model";
 
-    const userStore = useUserStore();
-    const user: User = userStore.getUser;
+definePageMeta({
+    middleware: 'auth'
+})
 
-    // TODO: faire un middleware pour ça
-    if (user === null) {
-        navigateTo('/login');
-    }
+const userStore = useUserStore();
+const user: User = userStore.getUser;
 
-    const logout = () => {
-        userStore.logout();
-        navigateTo('/');
-    }
+const logout = () => {
+    userStore.logout();
+    navigateTo('/');
+}
 </script>
 
 <template>

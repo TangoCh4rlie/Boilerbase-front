@@ -6,12 +6,11 @@ import {availableLanguages} from "~/utils/availableLanguages";
 import {apiUrl} from "~/utils/host";
 import {useUserStore} from "~/store/user.store";
 
-const userStore = useUserStore()
+definePageMeta({
+    middleware: 'auth'
+})
 
-// TODO: faire un middleware pour ça
-if (userStore.user === null) {
-    navigateTo('/login');
-}
+const userStore = useUserStore()
 
 const {data} = await useFetch<GitRepos[]>("https://api.github.com/users/TangoCh4rlie/repos");
 
