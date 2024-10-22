@@ -2,8 +2,6 @@
 import {useUserStore} from "~/store/user.store";
 
 const userStore = useUserStore();
-// TODO: faire un truc plus propre avec la création de l'utilisateur au moment du chargement de n'importe quelle page
-await userStore.fetchUser();
 
 </script>
 
