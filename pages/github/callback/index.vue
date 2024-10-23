@@ -11,7 +11,7 @@ if (accessToken === undefined) {
         // TODO: mettre a true quand y'aura de https
         secure: false,
         httpOnly: true,
-        // sameSite: 'strict',
+        sameSite: 'strict',
     });
     accessToken.value = data.value.access_token;
 } else {

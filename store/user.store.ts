@@ -13,11 +13,7 @@ export const useUserStore = defineStore('userStore', {
 
     actions: {
         async fetchUser() {
-            const token = useCookie('access-token', {
-                maxAge: 60 * 60 * 24 * 7,
-                httpOnly: true,
-                sameSite: 'strict',
-            }).value;
+            const token = useCookie('access-token').value;
             if (token !== undefined) {
                 try {
                     const response = await fetch(apiUrl() + "user/me", {
